@@ -1,4 +1,4 @@
-package org.tiger.demohystrixconfig;
+/*package org.tiger.demohystrixconfig;
 
 
 import com.netflix.config.ConfigurationManager;
@@ -53,3 +53,4 @@ public class HelloController {
 
 
 }
+*/

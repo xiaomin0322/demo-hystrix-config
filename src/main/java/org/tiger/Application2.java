@@ -1,19 +1,21 @@
-package org.tiger;
+/*package org.tiger;
 
-import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConfigRootPath;
-import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConnectionString;
-
+import com.netflix.config.ConfigurationManager;
+import com.netflix.config.DynamicWatchedConfiguration;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.tiger.demohystrixconfig.ZooKeeperPathCacheConfigurationSource;
 import org.tiger.demohystrixconfig.ZookeeperNodeCacheConfigurationSource;
 
-import com.netflix.config.ConfigurationManager;
-import com.netflix.config.DynamicWatchedConfiguration;
+import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConfigRootPath;
+import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConnectionString;
 
 //@SpringBootApplication
-/**
+*//**
  * // 创建节点，数据存储在节点上，nodecache
 create path /myapp/config "hystrix.command.ExampleKey.execution.isolation.thread.timeoutInMilliseconds=4000"
 
@@ -22,8 +24,8 @@ create path /myapp/config/hystrix.command.ExampleKey.execution.isolation.thread.
 
  * @author zzm
  *
- */
-public class Application {
+ *//*
+public class Application2 {
 
 
 	public static void main(String[] args) {
@@ -51,3 +53,4 @@ public class Application {
 	}
 
 }
+*/
