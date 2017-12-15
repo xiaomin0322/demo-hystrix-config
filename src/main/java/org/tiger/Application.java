@@ -15,6 +15,16 @@ import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConfigRootPath;
 import static org.tiger.demohystrixconfig.ZookeeperConfig.zkConnectionString;
 
 @SpringBootApplication
+/**
+ * // 创建节点，数据存储在节点上，nodecache
+create path /myapp/config "hystrix.command.ExampleKey.execution.isolation.thread.timeoutInMilliseconds=4000"
+
+// 创建节点，pathcache
+create path /myapp/config/hystrix.command.ExampleKey.execution.isolation.thread.timeoutInMilliseconds 4000
+
+ * @author zzm
+ *
+ */
 public class Application {
 
 
@@ -23,7 +33,7 @@ public class Application {
 		startZookeeper();
 	}
 
-	private static void startZookeeper() {
+	public static void startZookeeper() {
 		CuratorFramework client = CuratorFrameworkFactory.newClient(zkConnectionString,
 				new ExponentialBackoffRetry(1000, 3));
 		if(!client.getState().equals(CuratorFrameworkState.STARTED)){
