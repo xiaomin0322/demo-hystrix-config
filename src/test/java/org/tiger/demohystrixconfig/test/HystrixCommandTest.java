@@ -103,6 +103,8 @@ public class HystrixCommandTest {
 		
 		
 		for(;;){
+			
+			System.out.println(service);
 			try {
 				service.withTimeout(TEST_STR);
 			} catch (Exception e) {
