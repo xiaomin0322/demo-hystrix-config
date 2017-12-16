@@ -48,7 +48,7 @@ public class HystrixCommandServiceImpl implements Service {
 	}
 
 	@Override
-	@HystrixCommand(commandKey="ExampleKey", threadPoolKey="HelloWorldPool", commandProperties = {
+	@HystrixCommand(commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = TEST_TIMEOUT + "") })
 	public String withTimeout(String str) {
 		try {

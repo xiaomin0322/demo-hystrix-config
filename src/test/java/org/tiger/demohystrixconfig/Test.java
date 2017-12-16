@@ -1,6 +1,5 @@
 package org.tiger.demohystrixconfig;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
@@ -27,11 +26,13 @@ public class Test {
 	public static void test(int i){
 		
 		try{
-		HelloCommand command = new HelloCommand(""+i);
+		//HelloCommand command = new HelloCommand(""+i);
 		  //节点信息
       String nodeProperty = DynamicPropertyFactory.getInstance()
               .getStringProperty("config", "<none>")
               .get();
+      
+      System.out.println("nodeProperty:"+nodeProperty);
 
       // before this set hystrix.command.HystrixCommandKey.execution.isolation.thread.timeoutInMilliseconds filed
       // ExampleKey is HystrixCommandKey singleton
@@ -39,7 +40,7 @@ public class Test {
               .getStringProperty("hystrix.command.ExampleKey.execution.isolation.thread.timeoutInMilliseconds",
                       "<none>")
               .get();
-
+      System.out.println("dynamicProperty:"+dynamicProperty);
 
       logger.info(" config node property:{},dynamicProperty:{}" ,nodeProperty,dynamicProperty);
 
