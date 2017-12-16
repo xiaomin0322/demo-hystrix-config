@@ -33,6 +33,12 @@ public class HystrixCommandTest {
 	}
 	
 	@Test
+	public void get()throws Exception {
+		System.out.println(service.get(TEST_STR));
+	}
+	
+	
+	@Test
 	public void getObservable() {
 		
 		 // blocking
@@ -116,7 +122,7 @@ public class HystrixCommandTest {
 		      // before this set hystrix.command.HystrixCommandKey.execution.isolation.thread.timeoutInMilliseconds filed
 		      // ExampleKey is HystrixCommandKey singleton
 		      String dynamicProperty = DynamicPropertyFactory.getInstance()
-		              .getStringProperty("hystrix.command.ExampleKey.execution.isolation.thread.timeoutInMilliseconds",
+		              .getStringProperty("hystrix.command.withTimeout.execution.isolation.thread.timeoutInMilliseconds",
 		                      "<none>")
 		              .get();
 

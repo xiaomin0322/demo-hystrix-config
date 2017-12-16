@@ -7,7 +7,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.tiger.demohystrixconfig.ZookeeperNodeCacheConfigurationSource;
+import org.tiger.demohystrixconfig.ZooKeeperPathCacheConfigurationSource;
 
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicWatchedConfiguration;
@@ -38,9 +38,9 @@ public class Application {
 			client.start();
 		}
 
-		ZookeeperNodeCacheConfigurationSource zkConfigSource = new ZookeeperNodeCacheConfigurationSource(client, zkConfigRootPath);
+		//ZookeeperNodeCacheConfigurationSource zkConfigSource = new ZookeeperNodeCacheConfigurationSource(client, zkConfigRootPath);
 		//change cache here
-//		ZooKeeperPathCacheConfigurationSource zkConfigSource = new ZooKeeperPathCacheConfigurationSource(client, zkConfigRootPath);
+	ZooKeeperPathCacheConfigurationSource zkConfigSource = new ZooKeeperPathCacheConfigurationSource(client, zkConfigRootPath);
 		try {
 			zkConfigSource.start();
 		} catch (Exception e) {
