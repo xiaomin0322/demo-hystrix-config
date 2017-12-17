@@ -35,6 +35,7 @@ public class HystrixCommandTest {
 	@Test
 	public void get()throws Exception {
 		System.out.println(service.get(TEST_STR));
+		System.out.println(service.get(TEST_STR));
 	}
 	
 	

@@ -164,7 +164,7 @@ public class HystrixApplicationListener implements
 								 String commandZkStoreKey=commandKeyZkName+"."+name;
 								 commandZkStoreKey = ZookeeperConfig.zkConfigRootPath + "/" + commandZkStoreKey;
 								 System.out.println(commandZkStoreKey);
-								 HystrixZKClient.appendEphemeralNode(commandZkStoreKey, val);
+								 //HystrixZKClient.appendEphemeralNode(commandZkStoreKey, val);
 							 }
 						 }
 						
