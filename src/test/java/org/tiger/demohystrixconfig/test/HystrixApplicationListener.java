@@ -23,15 +23,16 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesFactory;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 
+import util.ZkUtils;
 import zk.HystrixZKClient;
 
 @Component
 public class HystrixApplicationListener implements
 		ApplicationListener<ContextRefreshedEvent> {
 
-	Logger logger = LoggerFactory.getLogger(HystrixApplicationListener.class);
-	  private static ConcurrentHashMap<Class<?>, String> defaultNameCache = new ConcurrentHashMap<Class<?>, String>();
-	
+		Logger logger = LoggerFactory.getLogger(HystrixApplicationListener.class);
+		private static ConcurrentHashMap<Class<?>, String> defaultNameCache = new ConcurrentHashMap<Class<?>, String>();
+
 	  /* package */static String getDefaultNameFromClass(Class<?> cls) {
 	        String fromCache = defaultNameCache.get(cls);
 	        if (fromCache != null) {
@@ -47,9 +48,9 @@ public class HystrixApplicationListener implements
 	        }
 	        defaultNameCache.put(cls, name);
 	        return name;
-	    }
+	  	}
 	
-	 private static HystrixCommandKey initCommandKey(final HystrixCommandKey fromConstructor, Class<?> clazz) {
+		private static HystrixCommandKey initCommandKey(final HystrixCommandKey fromConstructor, Class<?> clazz) {
 	        if (fromConstructor == null || fromConstructor.name().trim().equals("")) {
 	            final String keyName = getDefaultNameFromClass(clazz);
 	            return HystrixCommandKey.Factory.asKey(keyName);
@@ -58,7 +59,7 @@ public class HystrixApplicationListener implements
 	        }
 	    }
 
-	    private static HystrixCommandProperties initCommandProperties(HystrixCommandKey commandKey, HystrixPropertiesStrategy propertiesStrategy, HystrixCommandProperties.Setter commandPropertiesDefaults) {
+		private static HystrixCommandProperties initCommandProperties(HystrixCommandKey commandKey, HystrixPropertiesStrategy propertiesStrategy, HystrixCommandProperties.Setter commandPropertiesDefaults) {
 	        if (propertiesStrategy == null) {
 	            return HystrixPropertiesFactory.getCommandProperties(commandKey, commandPropertiesDefaults);
 	        } else {
@@ -71,10 +72,11 @@ public class HystrixApplicationListener implements
 		/**
 		 * 表示所属的group，threadKey 一个group共用线程池 默认类名(简称) HystrixCommandServiceImpl，线程池用的是类名，(最好自定义)group，threadKey以免有冲突
 		 * 类名最好是，全包名+类名，这样就不会有冲突，可以在动态配置archaius包一层，将每个类的配置做一个文件夹存放早zk，方便管理，不会冲突
-		 * @param joinPoint
+		 * @param
 		 * @param cb
 		 * @return
 		 */
+
 		private String getHystrixGroupKey(Class<?> objClass,
 				com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand cb) {
 			String name = cb.groupKey().length() == 0 ? cb.commandKey() : cb.groupKey();
@@ -85,7 +87,7 @@ public class HystrixApplicationListener implements
 		/**
 		 * 默认值：当前执行方法名简称 如:get,信号量是以方法名简称为单位。。(最好自定义)commandKey以免有冲突
 		 * 方法名称最好是，全包名+类名+方法名称，这样就不会有冲突，可以在动态配置archaius包一层，将每个类的配置做一个文件夹存放早zk，方便管理，不会冲突
-		 * @param joinPoint
+		 * @param
 		 * @param cb
 		 * @return
 		 */
@@ -97,92 +99,114 @@ public class HystrixApplicationListener implements
 			return name;
 		}
 
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// logger.debug("------初始化执行----");
-		System.out.println("------初始化执行----");
-		try {
-			// 获取上下文
-			ApplicationContext context = event.getApplicationContext();
-			// 获取所有beanNames
-			String[] beanNames = context.getBeanNamesForType(Object.class);
-			for (String beanName : beanNames) {
-				Class<?> objClass = AopTargetUtils.getTarget(
-						context.getBean(beanName)).getClass();
-				Method[] methods = objClass.getDeclaredMethods();
-				List<HystrixCommandVo> hystrixCommandVos = new ArrayList<HystrixCommandVo>();
+		@Override
+		public void onApplicationEvent(ContextRefreshedEvent event) {
+			// logger.debug("------初始化执行----");
+			System.out.println("------初始化执行----");
+			try {
+				// 获取上下文
+				ApplicationContext context = event.getApplicationContext();
+				// 获取所有beanNames
+				String[] beanNames = context.getBeanNamesForType(Object.class);
+				for (String beanName : beanNames) {
+					Class<?> objClass = AopTargetUtils.getTarget(
+							context.getBean(beanName)).getClass();
+					Method[] methods = objClass.getDeclaredMethods();
+					List<HystrixCommandVo> hystrixCommandVos = new ArrayList<HystrixCommandVo>();
 
-				for (Method method : methods) {
-					HystrixCommand hystrixCommand = method
-							.getAnnotation(HystrixCommand.class);
-					if (hystrixCommand == null) {
-						continue;
-					}
-					// do something
-					HystrixCommandVo commandVo = new HystrixCommandVo(
-							hystrixCommand);
-					commandVo.setMethodName(method.getName());
-					commandVo.setClassName(objClass.getSimpleName());
-					commandVo.setPackageName(objClass.getPackage().getName());
-					commandVo.setProjectName(Class.class.getClass()
-							.getResource("/").getPath());
-					commandVo.setServiceIp(InetAddress.getLocalHost()
-							.getHostAddress());
-					commandVo.setClassNameAll(objClass.getName());
-					hystrixCommandVos.add(commandVo);
-					
-					
-					String  commandKey =  getHystrixcommandKey(method, hystrixCommand);
-					if(StringUtils.isBlank(commandVo.getCommandKey())){
-						commandVo.setCommandKey(commandKey);
-					}
-					
-					String  gropyKey =  getHystrixGroupKey(objClass, hystrixCommand);
-					if(StringUtils.isBlank(commandVo.getGroupKey())){
-						commandVo.setGroupKey(gropyKey);
-					}
-					
-					
-					String  threadKey =  getHystrixGroupKey(objClass, hystrixCommand);
-					if(StringUtils.isBlank(commandVo.getThreadPoolKey())){
-						commandVo.setThreadPoolKey(threadKey);
-					}
-					
-					
-					System.out.println("commandKey:"+commandKey+" gropyKey:"+gropyKey+" threadKey:"+threadKey);
+					for (Method method : methods) {
+						HystrixCommand hystrixCommand = method
+								.getAnnotation(HystrixCommand.class);
+						if (hystrixCommand == null) {
+							continue;
+						}
+						// do something
+							HystrixCommandVo commandVo = new HystrixCommandVo(
+								hystrixCommand);
+						commandVo.setMethodName(method.getName());
+						commandVo.setClassName(objClass.getSimpleName());
+						commandVo.setPackageName(objClass.getPackage().getName());
+						commandVo.setProjectName(Class.class.getClass()
+								.getResource("/").getPath());
+						commandVo.setServiceIp(InetAddress.getLocalHost()
+								.getHostAddress());
+						commandVo.setClassNameAll(objClass.getName());
+						hystrixCommandVos.add(commandVo);
 
-					//System.out.println("注解方法：" + method.getName() + ",===="+ commandVo);
-					if("withTimeout".equalsIgnoreCase(method.getName())){
-						String commandZkName = "hystrix.command.";
-						String commandKeyZkName = commandZkName + commandVo.getCommandKey();
-						
-						 List<HystrixPropertyVo> commandProperties = commandVo.getCommandProperties();
-						 if(CollectionUtils.isNotEmpty(commandProperties)){
-							 for(HystrixPropertyVo p:commandProperties){
-								 String name = p.getName();
-								 String val = p.getValue();
-								 String commandZkStoreKey=commandKeyZkName+"."+name;
-								 commandZkStoreKey = ZookeeperConfig.zkConfigRootPath + "/" + commandZkStoreKey;
-								 System.out.println(commandZkStoreKey);
-								 //HystrixZKClient.appendEphemeralNode(commandZkStoreKey, val);
-							 }
-						 }
-						
-					}
-					// /hystrix/org.springframework.integration.hystrix.HystrixCommandServiceImpl
-					String classNodeNamePath = ZookeeperConfig.zkConfigRootPath + "/"
-							+ commandVo.getClassNameAll();
-					// /hystrix/org.springframework.integration.hystrix.hystrixCommandServiceImpl_method_get_ip
-					final String methodsNodeNamePath = classNodeNamePath
-							+ "/method_" + commandVo.getMethodName() + "_"
-							+ commandVo.getServiceIp();
-					
-					//System.out.println(methodsNodeNamePath);
 
+						String  commandKey =  getHystrixcommandKey(method, hystrixCommand);
+						if(StringUtils.isBlank(commandVo.getCommandKey())){
+							commandVo.setCommandKey(commandKey);
+						}
+
+						String  gropyKey =  getHystrixGroupKey(objClass, hystrixCommand);
+						if(StringUtils.isBlank(commandVo.getGroupKey())){
+							commandVo.setGroupKey(gropyKey);
+						}
+
+
+						String  threadKey =  getHystrixGroupKey(objClass, hystrixCommand);
+						if(StringUtils.isBlank(commandVo.getThreadPoolKey())){
+							commandVo.setThreadPoolKey(threadKey);
+						}
+
+
+						System.out.println("commandKey:"+commandKey+" gropyKey:"+gropyKey+" threadKey:"+threadKey);
+
+						/**
+						 *
+						 */
+						//System.out.println("注解方法：" + method.getName() + ",===="+ commandVo);
+						if("withTimeout".equalsIgnoreCase(method.getName())){
+							List<HystrixPropertyVo> commadnProperties
+									= commandVo.getCommandProperties();
+							if(!ZkUtils.configZk(commadnProperties,commandVo)){
+								logger.info("error:  properties  execution.isolation.thread.timeoutInMilliseconds");
+								throw new RuntimeException("error: execution.isolation.thread.timeoutInMilliseconds");
+							}
+
+						}
+						/**
+						 * execution.isolation.thread.interruptOnTimeout
+						 * 执行是否启用超时，默认启用true
+						 */
+						if("interruptOnTimeout".equalsIgnoreCase(method.getName())){
+							List<HystrixPropertyVo> commadnProperties
+									= commandVo.getCommandProperties();
+							if(!ZkUtils.configZk(commadnProperties,commandVo)){
+								logger.info("error:  properties  execution.isolation.thread.interruptOnTimeout");
+								throw new RuntimeException("error: execution.isolation.thread.interruptOnTimeout");
+							}
+						}
+						/**
+						 * execution.isolation.thread.interruptOnTimeout
+						 * false
+						 */
+						if("interruptOnTimeoutFalse".equalsIgnoreCase(method.getName())){
+							List<HystrixPropertyVo> commadnProperties
+									= commandVo.getCommandProperties();
+							if(!ZkUtils.configZk(commadnProperties,commandVo)){
+								logger.info("error:  properties  execution.isolation.thread.interruptOnTimeoutFalse");
+								throw new RuntimeException("error: execution.isolation.thread.interruptOnTimeoutFalse");
+							}
+						}
+
+
+
+						// /hystrix/org.springframework.integration.hystrix.HystrixCommandServiceImpl
+						String classNodeNamePath = ZookeeperConfig.zkConfigRootPath + "/"
+								+ commandVo.getClassNameAll();
+						// /hystrix/org.springframework.integration.hystrix.hystrixCommandServiceImpl_method_get_ip
+						final String methodsNodeNamePath = classNodeNamePath
+								+ "/method_" + commandVo.getMethodName() + "_"
+								+ commandVo.getServiceIp();
+
+						//System.out.println(methodsNodeNamePath);
+
+					}
 				}
+				} catch (Exception e) {
+					e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

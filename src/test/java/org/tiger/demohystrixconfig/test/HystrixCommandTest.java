@@ -110,7 +110,7 @@ public class HystrixCommandTest {
 		
 		
 		for(;;){
-			
+			System.out.println("开始测");
 			System.out.println(service);
 			try {
 				service.withTimeout(TEST_STR);
@@ -127,7 +127,7 @@ public class HystrixCommandTest {
 		                      "<none>")
 		              .get();
 
-		      System.out.println(" config node property:{},dynamicProperty:{}" +nodeProperty+"    "+dynamicProperty);
+		      System.err.println(" config node property:{},dynamicProperty:{}" +  nodeProperty+"    "+dynamicProperty);
 			Thread.sleep(5000);
 		}
 		

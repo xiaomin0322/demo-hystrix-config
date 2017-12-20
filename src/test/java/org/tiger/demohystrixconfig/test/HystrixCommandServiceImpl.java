@@ -47,6 +47,12 @@ public class HystrixCommandServiceImpl implements Service {
 		throw new MyException();
 	}
 
+	/**
+	 * execution.isolation.thread.timeoutInMilliseconds
+	 * 命令执行超时时间，默认1000ms
+	 * @param str
+	 * @return
+	 */
 	@Override
 	@HystrixCommand(commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = TEST_TIMEOUT + "") })
@@ -54,15 +60,57 @@ public class HystrixCommandServiceImpl implements Service {
 		try {
 			//Thread.sleep(2 * TEST_TIMEOUT);
 			System.out.println("==========="+str);
-			Thread.sleep(2000);
-			
-			
+			Thread.sleep(2500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return str;
 	}
 
+	/**
+	 * execution.isolation.thread.interruptOnTimeout
+	 * 执行是否启用超时，默认启用true
+	 * @param
+	 * @return
+	 */
+	@Override
+	@HystrixCommand(commandProperties = {
+		@HystrixProperty(name="execution.isolation.thread.interruptOnTimeout",value="false")
+	})
+	public String interruptOnTimeout(String  string) {
+		try{
+			System.err.println("String :" + string);
+			Thread.sleep(2000);
+		}catch (InterruptedException e){
+			e.printStackTrace();
+		}
+		return string;
+	}
+
+	/**
+	 * execution.isolation.thread.interruptOnTimeout
+	 * 不启用超时
+	 * false
+	 * @return
+	 */
+	@HystrixCommand(commandProperties = {
+			@HystrixProperty(name="execution.isolation.thread.interruptOnTimeout",value = "false")
+	})
+	public String interruptOnTimeoutFalse(String string){
+		try{
+			System.err.println("String  :" +string);
+			Thread.sleep(2000);
+		}catch (InterruptedException e){
+			e.printStackTrace();
+		}
+		return string;
+	}
+
+	/**
+	 * execution.isolation.thread.timeoutInMilliseconds
+	 * @param str
+	 * @return
+	 */
 	@Override
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "0") })
 	public String withZeroTimeout(String str) {
@@ -74,6 +122,12 @@ public class HystrixCommandServiceImpl implements Service {
 		return str;
 	}
 
+	/**
+	 * execution.isolation.strategy
+	 * 隔离策略，默认是Thread, 可选Thread｜Semaphore
+	 *
+	 * @return
+	 */
 	@Override
 	// executionIsolationStrategy
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD") })
@@ -81,6 +135,11 @@ public class HystrixCommandServiceImpl implements Service {
 		return Thread.currentThread().hashCode();
 	}
 
+	/**
+	 *
+	 * 隔离策略，默认是Thread, 可选Thread｜Semaphore
+	 * @return
+	 */
 	@Override
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE") })
 	public int getNonThreadedThreadThreadId() {
