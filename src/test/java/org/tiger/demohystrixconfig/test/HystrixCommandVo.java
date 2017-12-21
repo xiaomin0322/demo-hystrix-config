@@ -72,7 +72,7 @@ public class HystrixCommandVo {
 				this.commandProperties.add(hystrixProperty);
 			}
 		}
-		
+
 	    Class<? extends Throwable>[] ignoreExceptions = hystrixCommand.ignoreExceptions();
 	    if(ignoreExceptions!=null){
 	    	this.ignoreExceptions = Arrays.asList(ignoreExceptions);

@@ -34,7 +34,7 @@ public class ZkUtils {
             for(HystrixPropertyVo p: propertyVoList){
                 String name = p.getName();
                 String value = p.getValue();
-                String commandZkStoreKey=commandKeyZkName+"."+name;
+                String commandZkStoreKey = commandKeyZkName+"."+name;
                 commandZkStoreKey  = ZookeeperConfig.zkConfigRootPath + "/"
                         + commandZkStoreKey;
                 System.out.println(commandZkStoreKey);
