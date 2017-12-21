@@ -144,55 +144,30 @@ public class HystrixApplicationListener implements
 							commandVo.setGroupKey(gropyKey);
 						}
 
-
 						String  threadKey =  getHystrixGroupKey(objClass, hystrixCommand);
 						if(StringUtils.isBlank(commandVo.getThreadPoolKey())){
 							commandVo.setThreadPoolKey(threadKey);
 						}
+					/*	System.out.println("commandKey:"+commandKey+" gropyKey:"+gropyKey+" threadKey:"+threadKey);
+						System.out.println("注解方法：" + method.getName() + ",===="+ commandVo);
+*/
+					/*	List<HystrixPropertyVo> commadnProperties
+								= commandVo.getCommandProperties();
+						if(!ZkUtils.configZk(commadnProperties,commandVo)){
+							logger.info("error:  properties  execution.isolation.thread.timeoutInMilliseconds");
+							throw new RuntimeException("error: execution.isolation.thread.timeoutInMilliseconds");
+						}*/
 
 
-						System.out.println("commandKey:"+commandKey+" gropyKey:"+gropyKey+" threadKey:"+threadKey);
-
-						/**
-						 *
-						 */
-						//System.out.println("注解方法：" + method.getName() + ",===="+ commandVo);
-						if("withTimeout".equalsIgnoreCase(method.getName())){
+					/*	if("maxConcurrentRequests".equalsIgnoreCase(method.getName())) {
 							List<HystrixPropertyVo> commadnProperties
 									= commandVo.getCommandProperties();
-							if(!ZkUtils.configZk(commadnProperties,commandVo)){
-								logger.info("error:  properties  execution.isolation.thread.timeoutInMilliseconds");
-								throw new RuntimeException("error: execution.isolation.thread.timeoutInMilliseconds");
-							}
-
-						}
-						/**
-						 * execution.isolation.thread.interruptOnTimeout
-						 * 执行是否启用超时，默认启用true
-						 */
-						if("interruptOnTimeout".equalsIgnoreCase(method.getName())){
-							List<HystrixPropertyVo> commadnProperties
-									= commandVo.getCommandProperties();
-							if(!ZkUtils.configZk(commadnProperties,commandVo)){
-								logger.info("error:  properties  execution.isolation.thread.interruptOnTimeout");
-								throw new RuntimeException("error: execution.isolation.thread.interruptOnTimeout");
-							}
-						}
-						/**
-						 * execution.isolation.thread.interruptOnTimeout
-						 * false
-						 */
-						if("interruptOnTimeoutFalse".equalsIgnoreCase(method.getName())){
-							List<HystrixPropertyVo> commadnProperties
-									= commandVo.getCommandProperties();
-							if(!ZkUtils.configZk(commadnProperties,commandVo)){
+							if (!ZkUtils.configZk(commadnProperties, commandVo)) {
 								logger.info("error:  properties  execution.isolation.thread.interruptOnTimeoutFalse");
 								throw new RuntimeException("error: execution.isolation.thread.interruptOnTimeoutFalse");
 							}
 						}
-
-
-
+					*/
 						// /hystrix/org.springframework.integration.hystrix.HystrixCommandServiceImpl
 						String classNodeNamePath = ZookeeperConfig.zkConfigRootPath + "/"
 								+ commandVo.getClassNameAll();

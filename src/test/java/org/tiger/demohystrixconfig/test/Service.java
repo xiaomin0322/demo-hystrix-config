@@ -26,6 +26,20 @@ public interface Service {
 	 * execution.isolation.semaphore.maxConcurrentRequests
 	 */
 	String maxConcurrentRequests(String string );
+
+	/**
+	 * fallback.isolation.semaphore.maxConcurrentRequests
+	 * @param string
+	 * @return
+	 */
+	String fallbackMaxConcurrentRequests(String string);
+	/**
+	 * hystrix.command.default.fallback.enabled
+	 * 当执行失败或者请求被拒绝，是否会尝试调用hystrixCommand.getFallback() 。默认true
+	 * @param string
+	 * @return
+	 */
+	String enabled(String string);
 	int getThreadId();
 	int getNonThreadedThreadThreadId();
 	String withZeroTimeout(String str);

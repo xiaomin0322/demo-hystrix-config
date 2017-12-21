@@ -10,7 +10,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 
 @org.springframework.stereotype.Service("hystrixCommandServiceImpl")
-public class HystrixCommandServiceImpl implements Service {
+public class HystrixCommandServiceImpl implements  Service{
 
 	public static final int TEST_TIMEOUT = 300;
 
@@ -73,7 +73,7 @@ public class HystrixCommandServiceImpl implements Service {
 	 * @param
 	 * @return
 	 */
-	@Override
+
 	@HystrixCommand(commandProperties = {
 		@HystrixProperty(name="execution.isolation.thread.interruptOnTimeout",value="false")
 	})
@@ -107,11 +107,50 @@ public class HystrixCommandServiceImpl implements Service {
 	}
 
 	/**
+	 *
+	 * @param string
+	 * @return
+	 */
+	@Override
+	@HystrixCommand(fallbackMethod = "fallbackMethod",
+			commandProperties =
+			{ @HystrixProperty(name = "execution.isolation.semaphore.maxConcurrentRequests",
+					value = "50") })
+	public String maxConcurrentRequests(String string) {
+		return string;
+	}
+
+	/**
+	 * 如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。默认10
+	 * @param string
+	 * @return
+	 */
+	@Override
+	@HystrixCommand(fallbackMethod = "fallbackMethod",
+		commandProperties = {
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests",
+			value="10")
+		})
+	public String fallbackMaxConcurrentRequests(String string) {
+		return string;
+	}
+
+	/**
+	 * 当执行失败或者请求被拒绝，是否会尝试调用hystrixCommand.getFallback() 。默认true
+	 * @param string
+	 * @return
+	 */
+	@Override
+	@HystrixCommand(commandProperties =
+			{@HystrixProperty(name = "fallback.enabled ",value="true")})
+	public String enabled(String string) {
+		return string;
+	}
+	/**
 	 * execution.isolation.thread.timeoutInMilliseconds
 	 * @param str
 	 * @return
 	 */
-	@Override
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "0") })
 	public String withZeroTimeout(String str) {
 		try {
