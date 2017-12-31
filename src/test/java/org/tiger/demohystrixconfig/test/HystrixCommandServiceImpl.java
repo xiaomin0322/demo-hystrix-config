@@ -14,7 +14,6 @@ public class HystrixCommandServiceImpl implements  Service{
 
 	public static final int TEST_TIMEOUT = 300;
 
-	@Override
 	@HystrixCommand(
 			commandProperties={ @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE"),
 					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
@@ -31,7 +30,6 @@ public class HystrixCommandServiceImpl implements  Service{
 		return str;
 	}
 	
-	@Override
 	@HystrixCommand(
 			commandProperties={  @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD") },
 			
@@ -41,7 +39,6 @@ public class HystrixCommandServiceImpl implements  Service{
 		return str;
 	}
 
-	@Override
 	@HystrixCommand
 	public String throwException() throws MyException {
 		throw new MyException();
@@ -53,7 +50,6 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @param str
 	 * @return
 	 */
-	@Override
 	@HystrixCommand(commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = TEST_TIMEOUT + "") })
 	public String withTimeout(String str) {
@@ -111,7 +107,6 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @param string
 	 * @return
 	 */
-	@Override
 	@HystrixCommand(fallbackMethod = "fallbackMethod",
 			commandProperties =
 			{ @HystrixProperty(name = "execution.isolation.semaphore.maxConcurrentRequests",
@@ -125,7 +120,6 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @param string
 	 * @return
 	 */
-	@Override
 	@HystrixCommand(fallbackMethod = "fallbackMethod",
 		commandProperties = {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests",
@@ -140,13 +134,160 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @param string
 	 * @return
 	 */
-	@Override
 	@HystrixCommand(commandProperties =
 			{@HystrixProperty(name = "fallback.enabled ",value="true")})
 	public String enabled(String string) {
 		return string;
 	}
+
 	/**
+	 * 设置统计的时间窗口值的，毫秒值，circuit break 的打开会根据1个rolling window的统计来计算。
+	 * 若rolling window被设为10000毫秒，
+	 * 则rolling window会被分成n个buckets，每个bucket包含success，
+	 * failure，timeout，rejection的次数的统计信息。默认10000
+	 * @param string
+	 * @return
+	 */
+	@HystrixCommand(commandProperties ={
+			@HystrixProperty(name = "metrics.rollingStats.numBuckets ",value = "10")
+	})
+	public String timeInMilliseconds(String string) {
+		return string;
+	}
+
+	/**
+	 * 用来跟踪circuit的健康性，如果未达标则让request短路。默认true
+	 * @param string
+	 * @return
+	 */
+	@HystrixCommand(commandProperties = {
+			@HystrixProperty(name = "circuitBreaker.enabled",value = "true")
+	})
+	public String circuitBreakerEnable(String string) {
+		return string;
+	}
+
+	/**
+	 *	默认20
+	 * @param string
+	 * @return
+	 */
+	@HystrixCommand(commandProperties = {
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "20")
+	})
+	public String requestVolumeThreshold(String string) {
+		return string;
+	}
+
+    /**
+     * 触发短路的时间值
+     * @param string
+     * @return
+     */
+	@HystrixCommand(commandProperties = {
+	        @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "5000")
+    })
+    public String sleepWindowInMilliseconds(String string) {
+        return string ;
+    }
+
+    /**
+     * 强制打开熔断器，如果打开这个开关，那么拒绝所有request，默认false
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "circuitBreaker.forceOpen",value = "false")
+    })
+    public String forceOpen(String string) {
+        return string;
+    }
+
+    /**
+     * 强制关闭熔断器 如果这个开关打开，
+     * circuit将一直关闭且忽略circuitBreaker.
+     * errorThresholdPercentage
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "circuitBreaker.forceClosed",value = "false")
+    })
+    public String forceClosed(String string) {
+        return string;
+    }
+
+    /**
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "metrics.rollingStats.numBuckets",value = "10")
+    })
+    public String numBuckets(String string) {
+        return string;
+    }
+
+    /**
+     * 执行时是否enable指标的计算和跟踪，默认true
+     * @param string
+     * @return
+     */
+    @HystrixCommand(
+            commandProperties = {
+                    @HystrixProperty(name = "metrics.rollingPercentile.enabled ",value = "10")
+            }
+    )
+    public String rollingPercentileEabled(String string) {
+        return string;
+    }
+
+    /**
+     * 设置rolling percentile window的时间，默认60000
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name ="metrics.rollingPercentile.timeInMilliseconds",value = "60000")
+    })
+    public String rollingPercentileTimeInMilliseconds(String string) {
+        return string;
+    }
+
+    /**
+     * 设置rolling percentile window的numberBuckets。
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "metrics.rollingPercentile.numBuckets",value ="60000")
+    })
+    public String rollingPercentileNumBuckets(String string) {
+        return string;
+    }
+
+    /**
+     * 如果bucket size＝100，window＝10s，若这10s里有500次执行，
+     * 只有最后100次执行会被统计到bucket里去。增加该值会增加内存开销以及排序的开销
+     * @param string
+     * @return
+     */
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "metrics.rollingPercentile.bucketSize ",value = "100")
+    })
+    public String bucketSize(String string) {
+        return string;
+    }
+
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "",value = "")
+    })
+    public String intervalInMilliseconds(String string) {
+        return string;
+    }
+
+
+    /**
 	 * execution.isolation.thread.timeoutInMilliseconds
 	 * @param str
 	 * @return
@@ -167,7 +308,7 @@ public class HystrixCommandServiceImpl implements  Service{
 	 *
 	 * @return
 	 */
-	@Override
+	 
 	// executionIsolationStrategy
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD") })
 	public int getThreadId() {
@@ -179,13 +320,13 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * 隔离策略，默认是Thread, 可选Thread｜Semaphore
 	 * @return
 	 */
-	@Override
+	 
 	@HystrixCommand(commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE") })
 	public int getNonThreadedThreadThreadId() {
 		return Thread.currentThread().hashCode();
 	}
 
-	@Override
+	 
 	//@HystrixCommand(/*fallbackMethod = "fallback"*//*,ignoreExceptions={MyRuntimeException.class}*/)
 	@HystrixCommand(
 			fallbackMethod = "fallback",
@@ -202,7 +343,7 @@ public class HystrixCommandServiceImpl implements  Service{
 		return s;
 	}
 
-	@Override
+	 
 	@HystrixCommand(fallbackMethod = "fallbackWithException"/*,ignoreExceptions={MyRuntimeException.class}*/)
 	public Throwable exceptionWithFallbackIncludingException(String testStr) {
 		throw new MyRuntimeException();
@@ -212,22 +353,22 @@ public class HystrixCommandServiceImpl implements  Service{
 		return t;
 	}
 
-	@Override
+	 
 	@HystrixCommand
 	public Future<String> getFuture(final String str) {
 		return new AsyncResult<String>() {
-			@Override
+			 
 			public String invoke() {
 				return str;
 			}
 		};
 	}
 
-	@Override
+	 
 	@HystrixCommand
 	public Observable<String> getObservable(final String str) {
 		 return Observable.create(new Observable.OnSubscribe<String>() {
-			@Override
+			 
 			public void call(Subscriber<? super String> observer) {
 				 try {
                      if (!observer.isUnsubscribed()) {
