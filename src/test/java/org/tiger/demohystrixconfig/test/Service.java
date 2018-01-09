@@ -123,6 +123,76 @@ public interface Service {
 	 */
 	String bucketSize(String string);
 
+
+	/**
+	 * 单次批处理的最大请求数，达到该数量触发批处理，
+	 * 默认Integer.MAX_VALUE
+	 * @param string
+	 * @return
+	 */
+	String maxRequestsInBatch(String string);
+
+	/**
+	 * 触发批处理的延迟，也可以为创建批处理的时间＋该值，
+	 * 默认10
+	 * @param string
+	 * @return
+	 */
+	String timerDelayInMilliseconds(String string);
+
+	/**
+	 * 是否对HystrixCollapser.execute() and
+	 * HystrixCollapser.queue()的cache，默认true
+	 * @param string
+	 * @return
+	 */
+	String requestCacheEnabled(String string);
+
+	/**
+	 * 并发执行的最大线程数，默认10
+	 * @param string
+	 * @return
+	 */
+	String coreSize(String string );
+
+	/**
+	 * BlockingQueue的最大队列数，当设为－1，会使用SynchronousQueue，
+	 * 值为正时使用LinkedBlcokingQueue。
+	 * 该设置只会在初始化时有效，之后不能修改threadpool的queue size，
+	 * 除非reinitialising thread executor。默认－1。
+	 * @param string
+	 * @return
+	 */
+	String blockingQueueSize(String string );
+
+	/**
+	 *
+	 * @param string
+	 * @return
+	 */
+	String queueSizeRejectionThreshold(String string );
+
+	/**
+	 * 如果corePoolSize和maxPoolSize设成一样（默认实现）该设置无效
+	 * @param string
+	 * @return
+	 */
+	String keepAliveTimeMinutes(String string);
+
+	/**
+	 * 线程池统计指标的时间，默认10000
+	 * @param string
+	 * @return
+	 */
+	String threadTimeInMilliseconds (String string);
+
+	/**
+	 * 将rolling window划分为n个buckets，默认10
+	 * @param string
+	 * @return
+	 */
+	String threadNumBuckets(String string);
+
 	String intervalInMilliseconds(String string);
 	int getThreadId();
 	int getNonThreadedThreadThreadId();

@@ -2,6 +2,7 @@ package org.tiger.demohystrixconfig.test;
 
 import java.util.concurrent.Future;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -279,8 +280,131 @@ public class HystrixCommandServiceImpl implements  Service{
         return string;
     }
 
+	/**
+	 *  单次批处理的最大请求数，
+	 *  达到该数量触发批处理，
+	 *  默认Integer.MAX_VALUE
+     *  返回执行的方法就是本方法
+     *  默认执行数量是Integer的最大数控
+	 * @param string
+	 * @return
+	 */
+	@HystrixCollapser(batchMethod = "maxRequestsInBatch",
+    collapserProperties = {
+	        @HystrixProperty(name = "maxRequestsInBatch",value=""+Integer.MAX_VALUE)
+    })
+	public String maxRequestsInBatch(String string) {
+		return string ;
+	}
+
+    /**
+     * 触发批处理的延迟，也可以为创建批处理的时间＋该值，默认10
+     * @param string
+     * @return
+     */
+    @HystrixCollapser(batchMethod = "timerDelayInMilliseconds",
+    collapserProperties = {
+            @HystrixProperty(name="timerDelayInMilliseconds",value="10")
+    })
+    public String timerDelayInMilliseconds(String string) {
+        return string;
+    }
+
+    /**
+     *
+     * @param string
+     * @return
+     */
+    @HystrixCollapser(batchMethod = "requestCacheEnabled",
+    collapserProperties = {
+            @HystrixProperty(name="requestCache.enabled",value="true")
+    })
+    public String requestCacheEnabled(String string) {
+        return string;
+    }
+
+    /**
+     * 线程池最大数量
+     * @param string
+     * @return
+     */
+    @HystrixCommand(threadPoolProperties = {
+            @HystrixProperty(name = "coreSize",value = "10")
+    })
+    public String coreSize(String string) {
+        return string;
+    }
+
+    /**
+     * BlockingQueue的最大队列数
+     * @param string
+     * @return
+     */
+    @HystrixCommand(
+            threadPoolProperties = {
+                    @HystrixProperty(name = "maxQueueSize",
+                    value="−1")
+            }
+    )
+    public String blockingQueueSize(String string) {
+        return string;
+    }
+
+    /**
+     * maxQueueSize
+     * @param string
+     * @return
+     */
+    @HystrixCommand(threadPoolProperties = {
+            @HystrixProperty(name = "queueSizeRejectionThreshold"
+            ,value = "5")
+    })
+    public String queueSizeRejectionThreshold(String string) {
+        return string;
+    }
+
+    /**
+     * 果corePoolSize和maxPoolSize设成一样（默认实现）该设置无效
+     * @param string
+     * @return
+     */
+    @HystrixCommand(threadPoolProperties = {
+            @HystrixProperty(name = "keepAliveTimeMinutes ",value="1")
+    })
+    public String keepAliveTimeMinutes(String string) {
+        return string;
+    }
+
+    /**
+     *
+     * @param string
+     * @return
+     */
+    @HystrixCommand(threadPoolProperties = {
+            @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds",
+            value="10000")
+
+    })
+    public String threadTimeInMilliseconds(String string) {
+        return string;
+    }
+
+    /**
+     *
+     * @param string
+     * @return
+     */
+    @HystrixCommand(threadPoolProperties = {
+            @HystrixProperty(name = "metrics.rollingStats.numBuckets"
+            ,value = "10")
+    })
+    public String threadNumBuckets(String string) {
+        return null;
+    }
+
+
     @HystrixCommand(commandProperties = {
-            @HystrixProperty(name = "",value = "")
+            @HystrixProperty(name = "metrics.healthSnapshot.intervalInMilliseconds",value = "500")
     })
     public String intervalInMilliseconds(String string) {
         return string;
