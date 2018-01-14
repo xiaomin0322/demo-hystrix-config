@@ -136,7 +136,7 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @return
 	 */
 	@HystrixCommand(commandProperties =
-			{@HystrixProperty(name = "fallback.enabled ",value="true")})
+			{@HystrixProperty(name = "fallback.enabled",value="true")})
 	public String enabled(String string) {
 		return string;
 	}
@@ -150,7 +150,7 @@ public class HystrixCommandServiceImpl implements  Service{
 	 * @return
 	 */
 	@HystrixCommand(commandProperties ={
-			@HystrixProperty(name = "metrics.rollingStats.numBuckets ",value = "10")
+			@HystrixProperty(name = "metrics.rollingStats.numBuckets",value = "10")
 	})
 	public String timeInMilliseconds(String string) {
 		return string;

@@ -25,6 +25,7 @@ public class ZkUtils {
      * @return
      */
     public static boolean configZk(List<HystrixPropertyVo> propertyVoList,HystrixCommandVo commandVo){
+        System.err.println("size  : " +propertyVoList.size());
         String commandZkName = "hystrix.command.";
         String commandKeyZkName = commandZkName + commandVo.getCommandKey();
         if (CollectionUtils.isEmpty(propertyVoList)){

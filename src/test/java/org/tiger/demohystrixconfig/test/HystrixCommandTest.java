@@ -37,8 +37,17 @@ public class HystrixCommandTest {
 		System.out.println(service.get(TEST_STR));
 		System.out.println(service.get(TEST_STR));
 	}
-	
-	
+
+	@Test
+	public void interruptOnTimeout(String string){
+		System.out.println(service.get(TEST_STR));
+		System.out.println(service.get(TEST_STR));
+	}
+
+
+
+
+
 	@Test
 	public void getObservable() {
 		
@@ -49,18 +58,14 @@ public class HystrixCommandTest {
 	    // - this is a verbose anonymous inner-class approach and doesn't do assertions
 		service.getObservable(TEST_STR).subscribe(new Observer() {
 
-			@Override
 			public void onCompleted() {
 				// TODO Auto-generated method stub
 				System.out.println("onCompleted");
 			}
 
-			@Override
 			public void onError(Throwable e) {
 				e.printStackTrace();
 			}
-
-			@Override
 			public void onNext(Object t) {
 				System.out.println("onNext: " + t);
 			}
@@ -72,7 +77,6 @@ public class HystrixCommandTest {
 	    // - ignore errors and onCompleted signal
 		
 		service.getObservable(TEST_STR).subscribe(new Action1<String>() {
-		        @Override
 		        public void call(String v) {
 		            System.out.println("Action1 onNext: " + v);
 		        }
