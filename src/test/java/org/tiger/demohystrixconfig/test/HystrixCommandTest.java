@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.netflix.hystrix.strategy.exception.MyRuntimeException;
+import org.tiger.demohystrixconfig.MyRuntimeException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -155,7 +155,7 @@ public class HystrixCommandTest {
 
 	//@Test(expected = MyException.class)
 	@Test(expected = com.netflix.hystrix.exception.HystrixRuntimeException.class)
-	public void testException() throws MyException, com.netflix.hystrix.strategy.exception.MyException {
+	public void testException() throws MyException, org.tiger.demohystrixconfig.MyException {
 		service.throwException();
 	}
 

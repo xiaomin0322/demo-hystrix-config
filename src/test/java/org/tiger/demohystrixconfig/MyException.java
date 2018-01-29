@@ -1,6 +1,4 @@
-package com.netflix.hystrix.strategy.exception;
-
-import com.netflix.hystrix.strategy.config.Configer;
+package org.tiger.demohystrixconfig;
 
 /**
  * PACKAGE_NAME: com.netflix.hystrix.strategy.exception

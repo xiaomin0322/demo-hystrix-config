@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.netflix.hystrix.strategy.config.Configer;
+import org.tiger.demohystrixconfig.Configer;
 import org.tiger.demohystrixconfig.test.MyException;
 import org.tiger.demohystrixconfig.test.Service;
 

@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.exception;
+package org.tiger.demohystrixconfig;
 
 public class MyRuntimeException extends RuntimeException {
 

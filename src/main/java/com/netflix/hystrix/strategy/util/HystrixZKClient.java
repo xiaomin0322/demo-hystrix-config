@@ -3,14 +3,9 @@ package com.netflix.hystrix.strategy.util;
 import com.netflix.hystrix.strategy.service.ZkServer;
 import org.tiger.demohystrixconfig.ZookeeperConfig;
 
-/**
- * 客户端测试
- * 
- * @author liuyuehu
- */
+
 public class HystrixZKClient {
 
-	//public static final String ROOTPATH = "/hystrix";
 	public static final String ROOTPATH = ZookeeperConfig.zkConfigRootPath;
 	
 	public static ZkServer zkServer = new ZkServerImpl();
@@ -47,11 +42,4 @@ public class HystrixZKClient {
 		
 	}
 
-	
-
-	public static void main(String[] args) throws Exception {
-		appendPresistentNode(ROOTPATH, "123");
-		appendEphemeralNode(ROOTPATH+"/test", "123");
-		Thread.sleep(10000);
-	}
 }

@@ -3,8 +3,8 @@ package org.tiger.demohystrixconfig.test;
 import java.util.concurrent.Future;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
-import com.netflix.hystrix.strategy.exception.MyException;
-import com.netflix.hystrix.strategy.exception.MyRuntimeException;
+import org.tiger.demohystrixconfig.MyException;
+import org.tiger.demohystrixconfig.MyRuntimeException;
 import rx.Observable;
 import rx.Subscriber;
 

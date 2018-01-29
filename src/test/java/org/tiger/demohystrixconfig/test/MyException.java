@@ -1,6 +1,6 @@
 package org.tiger.demohystrixconfig.test;
 
-import com.netflix.hystrix.strategy.config.Configer;
+import org.tiger.demohystrixconfig.Configer;
 
 public class MyException extends Exception {
 	
