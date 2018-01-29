@@ -1,7 +1,11 @@
 package util;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiger.demohystrixconfig.ZookeeperConfig;
+import org.tiger.demohystrixconfig.test.HystrixCollapserVo;
 import org.tiger.demohystrixconfig.test.HystrixCommandVo;
 import org.tiger.demohystrixconfig.test.HystrixPropertyVo;
 import zk.HystrixZKClient;
@@ -17,6 +21,8 @@ import java.util.List;
  * TIME: 21:39
  */
 public class ZkUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(ZkUtils.class);
 
     /**
      * 通用公共类
@@ -42,8 +48,69 @@ public class ZkUtils {
                 HystrixZKClient.appendEphemeralNode(commandZkStoreKey,value);
             }
         } catch (Exception e) {
+            logger.info( "error : code error "+ e.getMessage());
             e.printStackTrace();
         }
+        return true;
+    }
+
+    /**
+     * 注册ThreadPoolProperties
+     * @param propertyVoList
+     * @param commandVo
+     * @return
+     */
+    public static  boolean configThreadPoolPropertiesZk(List<HystrixPropertyVo> propertyVoList, HystrixCommandVo commandVo){
+        String threadPoolZkName = "hystrix.thread.";
+
+        String threadPoolZkKey = threadPoolZkName + commandVo.getCommandKey();
+        if (CollectionUtils.sizeIsEmpty(propertyVoList)){
+            return  false;
+        }
+        propertyVoList.stream().forEach(hystrixPropertyVo -> {
+            String name = hystrixPropertyVo.getName();
+            String value = hystrixPropertyVo.getValue();
+            String commandZkStoreKey = threadPoolZkKey+"."+name;
+            String zkKey = ZookeeperConfig.zkConfigRootPath + "/"
+                    + commandZkStoreKey;
+            try {
+                HystrixZKClient.appendEphemeralNode(zkKey,value);
+            } catch (Exception e) {
+                logger.info( "error : code error "+ e.getMessage());
+                e.printStackTrace();
+            }
+        });
+        return true;
+    }
+
+
+    /**
+     *
+     * @param propertyVoList
+     * @param collapserVo
+     * @return
+     */
+    public static  boolean configHystrixCollapserZk(List<HystrixPropertyVo> propertyVoList, HystrixCollapserVo collapserVo){
+        String collapserZkName = "hystrix.collapser.";
+        String collapserZKKey = collapserZkName + collapserVo.getBatchMethod();
+        if (CollectionUtils.sizeIsEmpty(propertyVoList)){
+            return  false;
+        }
+
+        propertyVoList.stream().forEach(hystrixPropertyVo -> {
+            String name = hystrixPropertyVo.getName();
+            String value = hystrixPropertyVo.getValue();
+            String collapserZkStoreKey = collapserZKKey+"."+name;
+            String zkKey = ZookeeperConfig.zkConfigRootPath + "/"
+                    + collapserZkStoreKey;
+            try {
+                HystrixZKClient.appendEphemeralNode(zkKey,value);
+            } catch (Exception e) {
+                logger.info( "error : code error "+ e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
         return true;
     }
 }
