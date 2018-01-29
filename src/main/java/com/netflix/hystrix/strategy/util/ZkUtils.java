@@ -1,14 +1,13 @@
-package util;
+package com.netflix.hystrix.strategy.util;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
+import com.netflix.hystrix.strategy.vo.HystrixCommandVo;
+import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
+import com.netflix.hystrix.strategy.zk.HystrixZKClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiger.demohystrixconfig.ZookeeperConfig;
-import org.tiger.demohystrixconfig.test.HystrixCollapserVo;
-import org.tiger.demohystrixconfig.test.HystrixCommandVo;
-import org.tiger.demohystrixconfig.test.HystrixPropertyVo;
-import zk.HystrixZKClient;
+import com.netflix.hystrix.strategy.config.HystrixCollapserVo;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class ZkUtils {
      * @param commandVo
      * @return
      */
-    public static boolean configZk(List<HystrixPropertyVo> propertyVoList,HystrixCommandVo commandVo){
+    public static boolean configZk(List<HystrixPropertyVo> propertyVoList, HystrixCommandVo commandVo){
         System.err.println("size  : " +propertyVoList.size());
         String commandZkName = "hystrix.command.";
         String commandKeyZkName = commandZkName + commandVo.getCommandKey();

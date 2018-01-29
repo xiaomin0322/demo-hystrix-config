@@ -1,4 +1,6 @@
-package org.tiger.demohystrixconfig.test;
+package com.netflix.hystrix.strategy.service;
+
+import com.netflix.hystrix.strategy.exception.MyException;
 
 import java.util.concurrent.Future;
 

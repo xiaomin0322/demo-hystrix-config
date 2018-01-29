@@ -1,7 +1,8 @@
-package org.tiger.demohystrixconfig.test;
+package com.netflix.hystrix.strategy.config;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
 
 import java.util.ArrayList;
 import java.util.List;

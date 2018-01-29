@@ -1,8 +1,11 @@
-package org.tiger.demohystrixconfig.test;
+package com.netflix.hystrix.strategy.config;
 
 import java.util.concurrent.Future;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
+import com.netflix.hystrix.strategy.exception.MyException;
+import com.netflix.hystrix.strategy.exception.MyRuntimeException;
+import com.netflix.hystrix.strategy.service.Service;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -11,7 +14,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 
 @org.springframework.stereotype.Service("hystrixCommandServiceImpl")
-public class HystrixCommandServiceImpl implements  Service{
+public class HystrixCommandServiceImpl implements Service {
 
 	public static final int TEST_TIMEOUT = 300;
 

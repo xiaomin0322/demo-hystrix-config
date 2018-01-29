@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.netflix.hystrix.strategy.config.HystrixCommandServiceImpl;
+import com.netflix.hystrix.strategy.exception.MyRuntimeException;
+import com.netflix.hystrix.strategy.service.Service;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +27,7 @@ public class HystrixCommandTest {
 
 	private static final String TEST_STR = "TEST_STR";
 	@Autowired
-	@Qualifier(value = "hystrixCommandServiceImpl")
+	/*@Qualifier(value = "hystrixCommandServiceImpl")*/
 	private Service service;
 
 	
@@ -52,7 +56,7 @@ public class HystrixCommandTest {
 	public void getObservable() {
 		
 		 // blocking
-	    assertEquals(TEST_STR, service.getObservable(TEST_STR).toBlocking().single());
+	    Assert.assertEquals(TEST_STR, service.getObservable(TEST_STR).toBlocking().single());
 		
 	 // non-blocking 
 	    // - this is a verbose anonymous inner-class approach and doesn't do assertions
@@ -88,7 +92,7 @@ public class HystrixCommandTest {
 	
 	@Test
 	public void testHystrix() {
-		assertEquals(TEST_STR, service.get(TEST_STR));
+		Assert.assertEquals(TEST_STR, service.get(TEST_STR));
 	}
 	
 
@@ -148,13 +152,13 @@ public class HystrixCommandTest {
 		service.withZeroTimeout(TEST_STR);
 
 		long end = System.currentTimeMillis();
-		assertTrue(end - start > HystrixCommandServiceImpl.TEST_TIMEOUT * 2);
-		assertTrue(end - start < HystrixCommandServiceImpl.TEST_TIMEOUT * 2.1f);
+		Assert.assertTrue(end - start > HystrixCommandServiceImpl.TEST_TIMEOUT * 2);
+		Assert.assertTrue(end - start < HystrixCommandServiceImpl.TEST_TIMEOUT * 2.1f);
 	}
 
 	//@Test(expected = MyException.class)
 	@Test(expected = com.netflix.hystrix.exception.HystrixRuntimeException.class)
-	public void testException() throws MyException {
+	public void testException() throws MyException, com.netflix.hystrix.strategy.exception.MyException {
 		service.throwException();
 	}
 
@@ -163,7 +167,7 @@ public class HystrixCommandTest {
 		int threadId = Thread.currentThread().hashCode();
 		int serviceThreadId = service.getThreadId();
 
-		assertNotEquals(threadId, serviceThreadId);
+		Assert.assertNotEquals(threadId, serviceThreadId);
 	}
 
 	@Test
@@ -171,18 +175,18 @@ public class HystrixCommandTest {
 		int threadId = Thread.currentThread().hashCode();
 		int serviceThreadId = service.getNonThreadedThreadThreadId();
 
-		assertEquals(threadId, serviceThreadId);
+		Assert.assertEquals(threadId, serviceThreadId);
 	}
 
 	@Test
 	public void testExceptionWithFallback() throws MyException {
-		assertEquals(TEST_STR, service.exceptionWithFallback(TEST_STR));
+		Assert.assertEquals(TEST_STR, service.exceptionWithFallback(TEST_STR));
 	}
 
 	@Test
 	public void testExceptionPassingExceptionToFallback() throws MyException {
 		Throwable t = service.exceptionWithFallbackIncludingException(TEST_STR);
-		assertTrue(t instanceof MyRuntimeException);
+		Assert.assertTrue(t instanceof MyRuntimeException);
 	}
 
 	

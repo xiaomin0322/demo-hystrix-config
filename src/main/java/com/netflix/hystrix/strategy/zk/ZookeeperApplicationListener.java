@@ -1,4 +1,4 @@
-package zk;
+package com.netflix.hystrix.strategy.zk;
 
 import org.springframework.stereotype.Component;
 
