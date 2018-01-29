@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.strategy.util.AopTargetUtils;
 import com.netflix.hystrix.strategy.util.ZkUtils;
+import com.netflix.hystrix.strategy.vo.HystrixCollapserVo;
 import com.netflix.hystrix.strategy.vo.HystrixCommandVo;
 import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
 import org.apache.commons.lang.StringUtils;
@@ -94,8 +95,6 @@ public class HystrixApplicationListener implements
      */
     private String getHystrixcommandKey(Method method,
                                         com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand cb) {
-        //Method method = getMethod(joinPoint);
-        //String name =method.toGenericString();
         String name = method.getName();
         return name;
     }

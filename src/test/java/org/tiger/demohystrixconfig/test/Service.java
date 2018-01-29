@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.service;
+package org.tiger.demohystrixconfig.test;
 
 import com.netflix.hystrix.strategy.exception.MyException;
 

@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.netflix.hystrix.strategy.config.Configer;
 import org.tiger.demohystrixconfig.test.MyException;
-import com.netflix.hystrix.strategy.service.Service;
+import org.tiger.demohystrixconfig.test.Service;
 
 /**
  * springApplicationContext工具

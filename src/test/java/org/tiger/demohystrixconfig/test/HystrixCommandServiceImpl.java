@@ -1,11 +1,10 @@
-package com.netflix.hystrix.strategy.config;
+package org.tiger.demohystrixconfig.test;
 
 import java.util.concurrent.Future;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.strategy.exception.MyException;
 import com.netflix.hystrix.strategy.exception.MyRuntimeException;
-import com.netflix.hystrix.strategy.service.Service;
 import rx.Observable;
 import rx.Subscriber;
 

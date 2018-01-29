@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.zk;
+package com.netflix.hystrix.strategy.service;
 import java.io.IOException;
 import java.util.List;
 

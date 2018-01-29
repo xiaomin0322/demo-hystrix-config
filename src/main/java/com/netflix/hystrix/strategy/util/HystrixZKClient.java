@@ -1,5 +1,6 @@
-package com.netflix.hystrix.strategy.zk;
+package com.netflix.hystrix.strategy.util;
 
+import com.netflix.hystrix.strategy.service.ZkServer;
 import org.tiger.demohystrixconfig.ZookeeperConfig;
 
 /**

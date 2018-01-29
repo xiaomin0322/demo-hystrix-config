@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.zk;
+package org.tiger.demohystrixconfig.test;
 
 import org.springframework.stereotype.Component;
 

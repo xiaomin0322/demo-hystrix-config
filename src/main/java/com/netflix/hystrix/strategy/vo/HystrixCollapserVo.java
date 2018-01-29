@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.config;
+package com.netflix.hystrix.strategy.vo;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;

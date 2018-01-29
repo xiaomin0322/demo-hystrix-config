@@ -4,14 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.netflix.hystrix.strategy.config.HystrixCommandServiceImpl;
 import com.netflix.hystrix.strategy.exception.MyRuntimeException;
-import com.netflix.hystrix.strategy.service.Service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.tiger.Application;
