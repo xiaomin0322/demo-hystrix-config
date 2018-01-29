@@ -1,10 +1,9 @@
-package com.netflix.hystrix.strategy.util;
+package com.netflix.hystrix.util;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import com.netflix.hystrix.strategy.service.ZkServer;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;

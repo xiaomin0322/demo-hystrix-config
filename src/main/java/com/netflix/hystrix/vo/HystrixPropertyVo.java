@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.vo;
+package com.netflix.hystrix.vo;
 
 public class HystrixPropertyVo {
       private String name;

@@ -1,12 +1,11 @@
-package com.netflix.hystrix.strategy.util;
+package com.netflix.hystrix.util;
 
-import com.netflix.hystrix.strategy.vo.HystrixCommandVo;
-import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
+import com.netflix.hystrix.vo.HystrixCollapserVo;
+import com.netflix.hystrix.vo.HystrixCommandVo;
+import com.netflix.hystrix.vo.HystrixPropertyVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tiger.demohystrixconfig.ZookeeperConfig;
-import com.netflix.hystrix.strategy.vo.HystrixCollapserVo;
 
 import java.util.List;
 

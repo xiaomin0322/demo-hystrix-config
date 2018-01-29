@@ -1,4 +1,4 @@
-package org.tiger.demohystrixconfig;
+package com.netflix.hystrix.util;
 
 import com.google.common.io.Closeables;
 import com.netflix.config.WatchedConfigurationSource;

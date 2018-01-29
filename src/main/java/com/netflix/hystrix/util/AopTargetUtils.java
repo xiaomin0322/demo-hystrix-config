@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.util;
+package com.netflix.hystrix.util;
 import java.lang.reflect.Field;  
   
 import org.springframework.aop.framework.AdvisedSupport;  

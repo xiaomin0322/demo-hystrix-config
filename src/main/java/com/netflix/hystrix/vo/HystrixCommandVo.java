@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.vo;
+package com.netflix.hystrix.vo;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 

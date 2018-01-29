@@ -1,8 +1,8 @@
 package org.tiger.demohystrixconfig.test;
 import java.io.IOException;
 
-import com.netflix.hystrix.strategy.service.ZkServer;
-import com.netflix.hystrix.strategy.util.ZkServerImpl;
+import com.netflix.hystrix.util.ZkServer;
+import com.netflix.hystrix.util.ZkServerImpl;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
 

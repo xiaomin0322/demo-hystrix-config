@@ -1,4 +1,4 @@
-package org.tiger.demohystrixconfig;
+package com.netflix.hystrix.util;
 
 public class ZookeeperConfig {
 

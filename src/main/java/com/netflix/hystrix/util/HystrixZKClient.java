@@ -1,7 +1,4 @@
-package com.netflix.hystrix.strategy.util;
-
-import com.netflix.hystrix.strategy.service.ZkServer;
-import org.tiger.demohystrixconfig.ZookeeperConfig;
+package com.netflix.hystrix.util;
 
 
 public class HystrixZKClient {
@@ -21,9 +18,7 @@ public class HystrixZKClient {
 	}
 	
 	public static void appendEphemeralNode(String path, String date) throws Exception {
-		
-		
-		
+
 		if (!zkServer.exist(path)) {
 			zkServer.appendEphemeralNode(path, date);
 			System.out.println("成功创建[" + path + "]节点!");

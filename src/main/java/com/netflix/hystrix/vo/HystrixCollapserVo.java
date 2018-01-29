@@ -1,8 +1,7 @@
-package com.netflix.hystrix.strategy.vo;
+package com.netflix.hystrix.vo;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
 
 import java.util.ArrayList;
 import java.util.List;

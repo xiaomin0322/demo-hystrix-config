@@ -1,4 +1,4 @@
-package com.netflix.hystrix.strategy.config;
+package com.netflix.hystrix.listener;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
-import com.netflix.hystrix.strategy.util.AopTargetUtils;
-import com.netflix.hystrix.strategy.util.ZkUtils;
-import com.netflix.hystrix.strategy.vo.HystrixCollapserVo;
-import com.netflix.hystrix.strategy.vo.HystrixCommandVo;
-import com.netflix.hystrix.strategy.vo.HystrixPropertyVo;
+import com.netflix.hystrix.vo.HystrixCollapserVo;
+import com.netflix.hystrix.util.AopTargetUtils;
+import com.netflix.hystrix.util.ZkUtils;
+import com.netflix.hystrix.vo.HystrixCommandVo;
+import com.netflix.hystrix.vo.HystrixPropertyVo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
